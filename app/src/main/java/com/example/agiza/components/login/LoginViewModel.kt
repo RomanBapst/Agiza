@@ -1,7 +1,6 @@
 package com.example.agiza.components.login
 
 import android.content.Context
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -16,7 +15,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 sealed class LoginUiEvent {
-    class NavigateToHome() : LoginUiEvent()
+    data object NavigateToHome : LoginUiEvent()
 }
 
 class LoginViewModel(private val repository: Repository) : ViewModel() {
@@ -29,10 +28,8 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
     init {
         viewModelScope.launch {
             authenticationState.collect {
-                println("collecting")
                 if (authenticationState.value == AuthenticationState.Authenticated) {
-                    _uiEvent.send(LoginUiEvent.NavigateToHome())
-                    println("sent crap")
+                    _uiEvent.send(LoginUiEvent.NavigateToHome)
                 }
             }
         }

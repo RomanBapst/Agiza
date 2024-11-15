@@ -73,4 +73,5 @@ dependencies {
     implementation(libs.auth0)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation ("com.google.android.material:material:1.12.0")
+    implementation("org.ramani-maps:ramani-maplibre:0.7.0")
 }

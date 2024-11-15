@@ -7,6 +7,7 @@ import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.authentication.storage.CredentialsManager
 import com.auth0.android.authentication.storage.SharedPreferencesStorage
+import com.example.agiza.components.authentication.Auth0Authenticator
 import com.example.agiza.components.authentication.FakeAuth0Authenticator
 
 interface ApplicationContainer {
@@ -19,8 +20,8 @@ interface ApplicationContainer {
 
 
 class DefaultAppContainer(override val ctx: Context, override val auth0: Auth0, override val authentication: AuthenticationAPIClient, override val credentialsManager: CredentialsManager) : ApplicationContainer {
-    //override val repository = Repository(Auth0Authenticator(auth0, credentialsManager))
-    override val repository = Repository(FakeAuth0Authenticator())
+    override val repository = Repository(Auth0Authenticator(auth0, credentialsManager))
+    //override val repository = Repository(FakeAuth0Authenticator())
 }
 
 class JetpackComposeApp : Application() {
