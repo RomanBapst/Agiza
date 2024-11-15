@@ -11,5 +11,4 @@ class Repository(private val authenticator : AuthenticationService) {
     suspend fun login(ctx: Context) {
         authenticator.authenticate(ctx)
     }
-
 }

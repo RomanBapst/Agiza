@@ -7,6 +7,7 @@ import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.authentication.storage.CredentialsManager
 import com.auth0.android.authentication.storage.SharedPreferencesStorage
+import com.example.agiza.components.authentication.FakeAuth0Authenticator
 
 interface ApplicationContainer {
     val ctx: Context
