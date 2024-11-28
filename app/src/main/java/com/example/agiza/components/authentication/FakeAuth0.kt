@@ -11,6 +11,13 @@ class FakeAuth0Authenticator : AuthenticationService {
         authenticationDataWriter.authenticationStateWriter.value = AuthenticationState.Authenticated
     }
 
+    override suspend fun initCredentials() {
+    }
+
+    override suspend fun logout(context: Context) {
+        TODO("Not yet implemented")
+    }
+
     override val authenticationData : AuthenticationData = AuthenticationDataImpl()
     private val authenticationDataWriter = authenticationData as AuthenticationDataWriter
 

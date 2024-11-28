@@ -8,16 +8,18 @@ plugins {
 
 android {
     namespace = "com.example.agiza"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.agiza"
-        minSdk = 26
+        minSdk = 25
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        val MAPS_API_KEY: String by project
+        buildConfigField("String", "MAPTILER_API_KEY", MAPS_API_KEY)
 
         addManifestPlaceholders(
             mapOf(
@@ -45,6 +47,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -63,6 +66,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.ui.android)
+    implementation(libs.android.sdk)
+    implementation(project(":ramani-maplibre"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -73,5 +78,5 @@ dependencies {
     implementation(libs.auth0)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation ("com.google.android.material:material:1.12.0")
-    implementation("org.ramani-maps:ramani-maplibre:0.7.0")
+    implementation("com.auth0.android:jwtdecode:2.0.1")
 }

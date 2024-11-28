@@ -1,4 +1,4 @@
-package com.example.agiza.components.login
+package com.example.agiza.components.home
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -9,48 +9,40 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.agiza.JetpackComposeApp
 import com.example.agiza.Repository
-import com.example.agiza.components.authentication.AuthenticationState
+import com.example.agiza.components.login.LoginUiEvent
+import com.example.agiza.components.login.LoginViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-sealed class LoginUiEvent {
-    data object NavigateToHome : LoginUiEvent()
+sealed class HomeUiEvent {
+    data object NavigateToLogin : HomeUiEvent()
 }
 
-class LoginViewModel(private val repository: Repository) : ViewModel() {
+class HomeViewModel(private val repository: Repository) : ViewModel() {
 
-    val _uiEvent = Channel<LoginUiEvent>()
+
+    val _uiEvent = Channel<HomeUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
-    val userName = repository.userName
-    val authenticationState = repository.authenticationState
 
-    init {
-        viewModelScope.launch {
-            authenticationState.collect {
-                if (authenticationState.value == AuthenticationState.Authenticated) {
-                    _uiEvent.send(LoginUiEvent.NavigateToHome)
-                }
-            }
-        }
+    val role = repository.role
+    val shops = repository.shops
 
+    fun logout(context: Context) {
         viewModelScope.launch {
-            repository.initCredentials()
+            repository.logout(context)
+            _uiEvent.send(HomeUiEvent.NavigateToLogin)
         }
     }
 
-    fun onLoginClicked(context: Context) {
-        viewModelScope.launch {
-            repository.login(context)
-        }
-    }
     companion object {
         val Factory : ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as JetpackComposeApp)
                 val repository = application.container.repository
-                LoginViewModel(repository)
+                HomeViewModel(repository)
             }
         }
     }
+
 }

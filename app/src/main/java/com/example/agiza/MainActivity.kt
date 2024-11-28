@@ -95,7 +95,13 @@ fun MainScreen() {
                         }
                     })
                 }
-                composable<HomeScreen> { HomeScreen() }
+                composable<HomeScreen> { HomeScreen(onNavigateToLogin = {
+                   navController.navigate(Login) {
+                       popUpTo<HomeScreen>() {
+                           inclusive = true
+                       }
+                   }
+                }) }
             }
         }
     }

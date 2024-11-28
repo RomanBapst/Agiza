@@ -47,6 +47,13 @@ fun LoginScreen(modifier: Modifier = Modifier, onNavigateToHome : () -> Unit) {
             AuthenticationState.Authenticating -> {
                 CircularProgressIndicator()
             }
+
+            AuthenticationState.AuthenticatedWaitingEmailConfirmation -> {
+                Text(text = "Please verify email and then login")
+                Button(onClick = { viewmodel.onLoginClicked(context)  }) {
+                    Text(text = "Login")
+                }
+            }
             AuthenticationState.Authenticated -> {
                 Text("Hello " + userName.value)
             }

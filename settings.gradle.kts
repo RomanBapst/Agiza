@@ -20,5 +20,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Agiza"
-include(":app")
- 
+include(":app", ":ramani-maplibre")
+
+project(":ramani-maplibre").projectDir = file("${rootDir.parent}/ramani-maps/ramani-maplibre")
