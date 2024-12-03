@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key.Companion.Symbol
@@ -23,6 +24,9 @@ import kotlinx.serialization.Serializable
 import org.maplibre.android.MapLibre
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
+import org.maplibre.android.maps.Style
+import org.ramani.compose.MapLibre
+import org.ramani.compose.Symbol
 
 @Serializable
 object HomeScreen
@@ -32,7 +36,10 @@ fun HomeScreen(onNavigateToLogin: () -> Unit) {
 
     val homeViewModel = viewModel<HomeViewModel>(factory = HomeViewModel.Factory)
     val role = homeViewModel.role.collectAsState()
-    val cameraPosition = CameraPosition(target = LatLng(latitude = -3.37, longitude = 36.69), zoom = 15.0 )
+    val cameraPosition = org.ramani.compose.CameraPosition(
+        target = LatLng(latitude = -3.37, longitude = 36.69),
+        zoom = 15.0
+    )
     val context = LocalContext.current
     val shops = homeViewModel.shops.collectAsState()
 
@@ -48,7 +55,7 @@ fun HomeScreen(onNavigateToLogin: () -> Unit) {
         Button(onClick = {homeViewModel.logout(context)}) {
             Text("Logout")
         }
-        MapLibre( cameraPosition = cameraPosition, modifier = Modifier.fillMaxSize(), styleUrl = "https://api.maptiler.com/maps/streets-v2/style.json?key=2z0TwvuXjwgOpvle5GYY") {
+        MapLibre( modifier = Modifier.fillMaxSize(), styleBuilder = Style.Builder().fromUri("https://api.maptiler.com/maps/streets-v2/style.json?key=2z0TwvuXjwgOpvle5GYY"), cameraPosition = cameraPosition ) {
             shops.value.forEach {
                 Symbol(imageId = org.maplibre.android.R.drawable.maplibre_marker_icon_default , center = it.location, size = 1.0f, color = "Red", isDraggable = false, zIndex = 1, text = it.name)
             }

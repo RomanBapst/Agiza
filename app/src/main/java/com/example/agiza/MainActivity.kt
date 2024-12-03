@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -28,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.agiza.components.home.HomeScreen
 import com.example.agiza.components.login.Login
 import com.example.agiza.components.login.LoginScreen
+import com.example.agiza.components.product.ProductScreen
 import com.example.agiza.ui.theme.AgizaTheme
 import kotlinx.serialization.Serializable
 
@@ -47,7 +49,8 @@ class MainActivity : ComponentActivity() {
 data class TopLevelRoute<T : Any>(val name: String, val route: T, val icon: ImageVector)
 
 val toplevelRoutes = listOf(
-    TopLevelRoute("Home", HomeScreen, Icons.Filled.Home)
+    TopLevelRoute("Home", HomeScreen, Icons.Filled.Home),
+    TopLevelRoute("Products", ProductScreen, Icons.Filled.ShoppingCart)
 )
 
 @Composable
@@ -59,7 +62,7 @@ fun MainScreen() {
 
     Scaffold(bottomBar =
 
-    if (navBackStackEntry?.destination?.hierarchy?.any{ it.hasRoute(HomeScreen::class) } == true) {
+    if (navBackStackEntry?.destination?.hierarchy?.any{ it.hasRoute(HomeScreen::class) || it.hasRoute(ProductScreen::class) } == true) {
         {
             NavigationBar {
                 val currentDestination = navBackStackEntry?.destination
@@ -72,7 +75,9 @@ fun MainScreen() {
                             )
                         },
                         selected = currentDestination?.hierarchy?.any { it.hasRoute(toplevelRoute.route::class) } == true,
-                        onClick = {}
+                        onClick = {
+                            navController.navigate(toplevelRoute.route)
+                        }
                     )
 
 
@@ -102,6 +107,8 @@ fun MainScreen() {
                        }
                    }
                 }) }
+
+                composable<ProductScreen> { ProductScreen() }
             }
         }
     }

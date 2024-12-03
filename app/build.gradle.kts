@@ -8,11 +8,11 @@ plugins {
 
 android {
     namespace = "com.example.agiza"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.agiza"
-        minSdk = 25
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -67,7 +67,7 @@ dependencies {
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.ui.android)
     implementation(libs.android.sdk)
-    implementation(project(":ramani-maplibre"))
+    implementation("org.ramani-maps:ramani-maplibre:0.7.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

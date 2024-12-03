@@ -6,6 +6,8 @@ import org.maplibre.android.geometry.LatLng
 
 data class Shop(val name : String, val location : LatLng)
 
+data class Product(val name: String)
+
 interface ShopsService {
     val shops : StateFlow<List<Shop>>
 }

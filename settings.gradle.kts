@@ -20,6 +20,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Agiza"
-include(":app", ":ramani-maplibre")
+include(":app")
 
-project(":ramani-maplibre").projectDir = file("${rootDir.parent}/ramani-maps/ramani-maplibre")
+includeBuild("/home/roman/AndroidStudioProjects/ramani-maps/ramani-maplibre/")

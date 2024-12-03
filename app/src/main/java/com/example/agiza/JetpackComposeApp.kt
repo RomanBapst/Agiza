@@ -9,6 +9,7 @@ import com.auth0.android.authentication.storage.CredentialsManager
 import com.auth0.android.authentication.storage.SharedPreferencesStorage
 import com.example.agiza.components.authentication.Auth0Authenticator
 import com.example.agiza.components.authentication.FakeAuth0Authenticator
+import com.example.agiza.components.product.FakeProductsImpl
 import com.example.agiza.components.shops.ShopsImpl
 import com.example.agiza.components.shops.ShopsService
 
@@ -23,7 +24,8 @@ interface ApplicationContainer {
 
 class DefaultAppContainer(override val ctx: Context, override val auth0: Auth0, override val authentication: AuthenticationAPIClient, override val credentialsManager: CredentialsManager) : ApplicationContainer {
     val shopsImpl : ShopsService = ShopsImpl()
-    override val repository = Repository(Auth0Authenticator(auth0, credentialsManager), shopsImpl)
+    val productsImpl = FakeProductsImpl()
+    override val repository = Repository(Auth0Authenticator(auth0, credentialsManager), shopsImpl, productsImpl)
     //override val repository = Repository(FakeAuth0Authenticator())
 }
 
