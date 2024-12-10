@@ -1,0 +1,8 @@
+package com.example.agiza.domain.models
+
+import org.maplibre.android.geometry.LatLng
+
+data class AgentModel(
+    val name: String,
+    val lastLocation: LatLng
+)

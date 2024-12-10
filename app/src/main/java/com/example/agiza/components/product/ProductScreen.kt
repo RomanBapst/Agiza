@@ -18,11 +18,12 @@ object ProductScreen
 @Composable
 fun ProductScreen() {
     val productViewModel = viewModel<ProductViewModel>(factory = ProductViewModel.Factory)
-    val shops = productViewModel.products.collectAsState()
+    val agentsWithProducts = productViewModel.agentWithProducts.collectAsState()
 
     Column(modifier = Modifier.fillMaxSize()) {
-       shops.value.forEach { prod ->
-           Text(text = prod.name)
+       agentsWithProducts.value.forEach { agentWithProducts ->
+           ExpandableProducts(agentWithProducts, true, {})
+
        }
     }
 }

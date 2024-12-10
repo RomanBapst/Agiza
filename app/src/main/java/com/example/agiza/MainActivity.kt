@@ -17,11 +17,14 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -58,7 +61,9 @@ fun MainScreen() {
    val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-
+    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
+        "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
+    }
 
     Scaffold(bottomBar =
 
@@ -100,15 +105,24 @@ fun MainScreen() {
                         }
                     })
                 }
-                composable<HomeScreen> { HomeScreen(onNavigateToLogin = {
-                   navController.navigate(Login) {
-                       popUpTo<HomeScreen>() {
-                           inclusive = true
-                       }
-                   }
-                }) }
 
-                composable<ProductScreen> { ProductScreen() }
+                composable<HomeScreen> {
+                    CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
+                        HomeScreen(onNavigateToLogin = {
+                            navController.navigate(Login) {
+                                popUpTo<HomeScreen>() {
+                                    inclusive = true
+                                }
+                            }
+                        })
+                    }
+                }
+
+                composable<ProductScreen> {
+                    CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
+                        ProductScreen()
+                    }
+                }
             }
         }
     }

@@ -18,6 +18,10 @@ class FakeAuth0Authenticator : AuthenticationService {
         TODO("Not yet implemented")
     }
 
+    override suspend fun loginWithEmailAndPassword(email: String, password: String) {
+        TODO("Not yet implemented")
+    }
+
     override val authenticationData : AuthenticationData = AuthenticationDataImpl()
     private val authenticationDataWriter = authenticationData as AuthenticationDataWriter
 

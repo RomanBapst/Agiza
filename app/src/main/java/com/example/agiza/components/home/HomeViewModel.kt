@@ -20,8 +20,6 @@ sealed class HomeUiEvent {
 }
 
 class HomeViewModel(private val repository: Repository) : ViewModel() {
-
-
     val _uiEvent = Channel<HomeUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
@@ -30,10 +28,12 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
 
     fun logout(context: Context) {
         viewModelScope.launch {
+
             repository.logout(context)
             _uiEvent.send(HomeUiEvent.NavigateToLogin)
         }
     }
+
 
     companion object {
         val Factory : ViewModelProvider.Factory = viewModelFactory {

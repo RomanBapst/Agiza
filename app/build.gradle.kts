@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +7,7 @@ plugins {
     kotlin("plugin.serialization") version "2.0.0" apply true
 
 }
+
 
 android {
     namespace = "com.example.agiza"
@@ -18,8 +21,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        val MAPS_API_KEY: String by project
-        buildConfigField("String", "MAPTILER_API_KEY", MAPS_API_KEY)
+
+        val mapsApiKey = gradleLocalProperties(rootDir, providers).getProperty("MAPS_API_KEY")
+        val supabaseApiKey = gradleLocalProperties(rootDir, providers).getProperty("SUPABASE_API_KEY")
+        val supabaseProjectUrl = gradleLocalProperties(rootDir, providers).getProperty("SUPABASE_PROJECT_URL")
+
+        buildConfigField("String","MAPS_API_KEY", mapsApiKey)
+        buildConfigField("String","SUPABASE_API_KEY", supabaseApiKey)
+        buildConfigField("String","SUPABASE_PROJECT_URL", supabaseProjectUrl)
 
         addManifestPlaceholders(
             mapOf(
@@ -67,7 +76,8 @@ dependencies {
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.ui.android)
     implementation(libs.android.sdk)
-    implementation("org.ramani-maps:ramani-maplibre:0.7.0")
+    implementation("org.ramani-maps:ramani-maplibre:0.8.1")
+    implementation(libs.androidx.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -79,4 +89,14 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation ("com.google.android.material:material:1.12.0")
     implementation("com.auth0.android:jwtdecode:2.0.1")
+
+    implementation(platform("io.github.jan-tennert.supabase:bom:3.0.3"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.github.jan-tennert.supabase:auth-kt")
+    implementation("io.github.jan-tennert.supabase:realtime-kt")
+
+    implementation("io.ktor:ktor-client-okhttp:3.0.1")
+
+    implementation(libs.play.services.location)
+
 }

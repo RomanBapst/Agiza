@@ -22,6 +22,7 @@ interface AuthenticationService {
     suspend fun authenticate(context: Context)
     suspend fun initCredentials()
     suspend fun logout(context: Context)
+    suspend fun loginWithEmailAndPassword(email: String, password: String)
     val authenticationData : AuthenticationData
 }
 

@@ -87,5 +87,9 @@ class Auth0Authenticator(
             AuthenticationState.Unauthenticated
     }
 
+    override suspend fun loginWithEmailAndPassword(email: String, password: String) {
+        TODO("Not yet implemented")
+    }
+
 
 }
