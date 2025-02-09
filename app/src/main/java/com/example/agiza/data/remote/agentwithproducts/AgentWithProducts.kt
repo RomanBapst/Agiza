@@ -21,6 +21,7 @@ class RemoteAgentWithProductsImpl(val supabaseClient: SupabaseClient) : AgentWit
     override val writer =  MutableStateFlow<List<AgentWithProducts>>(emptyList())
 
     override suspend fun connect() {
+
     }
 
     override suspend fun disconnect() {
@@ -33,7 +34,7 @@ class RemoteAgentWithProductsImpl(val supabaseClient: SupabaseClient) : AgentWit
             supabaseClient.postgrest.rpc("get_agents_with_products").decodeAs<List<AgentWithProducts>>()
         } catch(exception : Exception) {
             println(exception.message)
-            emptyList<AgentWithProducts>()
+            emptyList()
         }
     }
 

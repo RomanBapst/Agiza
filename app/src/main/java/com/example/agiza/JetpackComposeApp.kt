@@ -10,7 +10,6 @@ import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.authentication.storage.CredentialsManager
 import com.auth0.android.authentication.storage.SharedPreferencesStorage
-import com.example.agiza.components.product.FakeProductsImpl
 import com.example.agiza.components.shops.ShopsImpl
 import com.example.agiza.components.shops.ShopsService
 import com.example.agiza.data.remote.agent.RemoteAgentServiceImpl
@@ -51,12 +50,10 @@ class DefaultAppContainer(
         defaultLogLevel = LogLevel.INFO
     }
     val shopsImpl: ShopsService = ShopsImpl(supabase)
-    val productsImpl = FakeProductsImpl()
     val lifecycle = ProcessLifecycleOwner.get().lifecycle
     override val repository = Repository(
         SupabaseAuthentication(supabase),
         shopsImpl,
-        productsImpl,
         RemoteAgentServiceImpl(supabase),
         RemoteAgentWithProductsImpl(supabase),
         lifecycle,

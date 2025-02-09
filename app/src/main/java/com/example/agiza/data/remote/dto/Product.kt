@@ -14,3 +14,10 @@ data class Product(
     val payload: JsonElement,
     val available: Boolean? = null
 )
+@Serializable
+data class AddProduct(
+    val name: String,
+    val price: Float,
+    val payload: JsonElement?,
+    val available: Boolean? = null
+)

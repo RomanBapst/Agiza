@@ -1,4 +1,4 @@
-package com.example.agiza.components.product
+package com.example.agiza.components.agent.product
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -8,30 +8,51 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.agiza.JetpackComposeApp
 import com.example.agiza.Repository
+import com.example.agiza.components.home.HomeUiEvent
 import com.example.agiza.domain.models.AgentModel
 import com.example.agiza.domain.models.ProductModel
 import com.example.agiza.domain.usecases.AgentWithProducts
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.maplibre.android.geometry.LatLng
+import org.maplibre.android.utils.ThreadUtils.init
 
-class ProductViewModel(repository: Repository) : ViewModel() {
+sealed class ProductUiEvent {
+    data object NavigateAddProduct : ProductUiEvent()
+}
+
+class ProductViewModel(private val repository: Repository) : ViewModel() {
 
     val agentWithProducts = MutableStateFlow<List<AgentWithProducts>>(emptyList())
+    val products = repository.products
+    val productRefreshState = repository.productRefreshState
+    val _uiEvent = Channel<ProductUiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        println("creating products viewmodel")
+
         viewModelScope.launch {
-            agentWithProducts.value =  repository.getAgentsWithProducts().map {
-                AgentWithProducts(
-                    agent = AgentModel(it.agent.id, LatLng(it.agent.lastLatitude!!, it.agent.lastLongitude!!)),
-                    products = it.products.map { prod ->
-                        ProductModel(prod.id.toString(), prod.name, prod.price)
-                    }
-                )
-            }
+            repository.refreshProducts()
+            println("dbg: init viewmodel")
         }
     }
+
+    fun refreshProducts() {
+        viewModelScope.launch {
+            repository.refreshProducts()
+        }
+    }
+
+    fun addProductClicked() {
+       viewModelScope.launch {
+           _uiEvent.send(ProductUiEvent.NavigateAddProduct)
+       }
+    }
+
 
     companion object {
         val Factory : ViewModelProvider.Factory = viewModelFactory {

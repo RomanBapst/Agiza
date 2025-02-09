@@ -29,10 +29,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.agiza.components.agent.product.AddProduct
 import com.example.agiza.components.home.HomeScreen
 import com.example.agiza.components.login.Login
 import com.example.agiza.components.login.LoginScreen
-import com.example.agiza.components.product.ProductScreen
+import com.example.agiza.components.agent.product.ProductScreen
 import com.example.agiza.ui.theme.AgizaTheme
 import kotlinx.serialization.Serializable
 
@@ -67,7 +68,8 @@ fun MainScreen() {
 
     Scaffold(bottomBar =
 
-    if (navBackStackEntry?.destination?.hierarchy?.any{ it.hasRoute(HomeScreen::class) || it.hasRoute(ProductScreen::class) } == true) {
+    if (navBackStackEntry?.destination?.hierarchy?.any{ it.hasRoute(HomeScreen::class) || it.hasRoute(
+            ProductScreen::class) } == true) {
         {
             NavigationBar {
                 val currentDestination = navBackStackEntry?.destination
@@ -120,8 +122,16 @@ fun MainScreen() {
 
                 composable<ProductScreen> {
                     CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
-                        ProductScreen()
+                        ProductScreen(onNavigateToAddProduct = {
+                            navController.navigate(AddProduct)
+                        })
                     }
+                }
+
+                composable<AddProduct> {
+                    AddProduct(onNavigateToProducts = {
+                       navController.popBackStack()
+                    })
                 }
             }
         }

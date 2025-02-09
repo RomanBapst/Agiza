@@ -22,4 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "Agiza"
 include(":app")
 
-includeBuild("/home/roman/AndroidStudioProjects/ramani-maps/ramani-maplibre/")
+//includeBuild("/home/roman/AndroidStudioProjects/ramani-maps/ramani-maplibre/")
+includeBuild("/home/roman/AndroidStudioProjects/libUi/")

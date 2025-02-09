@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.androidx.ui.android)
     implementation(libs.android.sdk)
     implementation("org.ramani-maps:ramani-maplibre:0.8.1")
+    implementation("com.agiza:libUi:0.8.1")
     implementation(libs.androidx.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

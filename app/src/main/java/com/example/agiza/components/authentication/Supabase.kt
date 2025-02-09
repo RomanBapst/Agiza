@@ -26,7 +26,7 @@ class SupabaseAuthentication(val supabase : SupabaseClient) : AuthenticationServ
             supabase.auth.sessionStatus.collect {
                 when (it) {
                     is SessionStatus.Authenticated -> {
-
+                        println("dbg: authenticated")
                         val token = JWT(it.session.accessToken)
 
                         val roleClaim = token.getClaim("user_role")
